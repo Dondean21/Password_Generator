@@ -5,74 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Password Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+      
+    <div class="container rounded">
     <header>
       <h1>Password Generator</h1>
     </header>
     <h2>Generate a Password</h2>
+    <br />
     <p>
-            Choose Password Length: <input type="number" id="charLen" value="8" min="8" max="128" /><br />
-            <br>
-            Uppercase:<input type="checkbox" id="upCase"/>
-            Lowercase:<input type="checkbox" id="lowCase"/>
-            Number:<input type="checkbox" id="num"/>
-            Special Character:<input type="checkbox" id="spChar"/>
-          </p>
+      Choose Password A Length Between (8 - 128):
+      <input type="number" id="charLen" value="8" min="8" max="128" /><br />
+     <br />
+      Uppercase:<input type="checkbox" id="upCase" /> 
+      
+      Lowercase:<input type="checkbox" id="lowCase" class="lowCase"/>
+        
+      Number:<input type="checkbox" id="num" /> 
+      
+      Special Character:<input type="checkbox" id="spChar"/>
+        
+        
+      
+    </p>
     <textarea
       readonly
       id="password"
       placeholder="Your Secure Password"
     ></textarea>
-    <button id="generate">Generate Password</button>
-    <button id="copy">
+    <br>
+    <div class="button">
+    <button type="button" class="btn btn-danger btn-lg" id="generate">Generate Password</button>
+    <button type="button" class="btn btn-success btn-lg" id="copy">
       Copy to Clipboard
     </button>
+    </div>
     <script>
-        var charUp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-        var charLow = "abcdefghijklmnopqrstuvwxyz";
-        var charSp = "!@#$%^&*:?>+";
-        var num  =  "1234567890";
-        var fill = "";
-        
+      var charUp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var charLow = "abcdefghijklmnopqrstuvwxyz";
+      var charSp = "!@#$%^&*:?>+";
+      var num = "1234567890";
+      var fill = "";
 
-        var charLen = document.getElementById("charLen");
-        var numBox = document.getElementById("num");
-        var upBox = document.getElementById("upCase");
-        var lowBox = document.getElementById("lowCase");
-        var spBox = document.getElementById("spChar");
-        var generate = document.getElementById("generate");
-        var copy = document.getElementById("copy");
-        var password = document.getElementById("password");
+      var charLen = document.getElementById("charLen");
+      var numBox = document.getElementById("num");
+      var upBox = document.getElementById("upCase");
+      var lowBox = document.getElementById("lowCase");
+      var spBox = document.getElementById("spChar");
+      var generate = document.getElementById("generate");
+      var copy = document.getElementById("copy");
+      var password = document.getElementById("password");
 
-       
-       generate.addEventListener("click",function(event){
+      generate.addEventListener("click", function(event) {
+        var characters = fill;
+        upBox.checked ? (characters += charUp) : " ";
+        lowBox.checked ? (characters += charLow) : " ";
+        numBox.checked ? (characters += num) : " ";
+        spBox.checked ? (characters += charSp) : " ";
 
-            var characters = fill;
-           (upBox.checked) ? characters += charUp : " ";
-           (lowBox.checked) ? characters += charLow : " ";
-           (numBox.checked) ? characters += num : " ";
-           (spBox.checked) ? characters += charSp : " ";
+        password.value = passwordGen(charLen.value, characters);
+      });
 
-           password.value = passwordGen(charLen.value, characters);
+      copy.addEventListener("click", function(event) {
+        document.execCommand("copy");
 
-       });
-       
-       
-       
-       
-        function passwordGen(len,characters){
-            var pWord = " ";
+        alert("Your Password has been saved to the clipboard");
+      });
 
-            for(var i = 0; i < len; i++){
-                pWord += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-                return pWord;
+      function passwordGen(len, characters) {
+        var pWord = " ";
+
+        for (var i = 0; i < len; i++) {
+          pWord += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+          );
         }
-
-
-    
-    
-    </script> 
+        return pWord;
+      }
+    </script>
+    </div>
   </body>
 </html>
